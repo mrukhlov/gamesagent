@@ -45,6 +45,13 @@ def webhook():
 
 def gameReset(req):
 	guess_word = ['K', '_', '_', '_', '_', 'N']
+	output = "Cool! Let's start. The word is K _ _ _ _ N. Guess a letter! Note that every time you guess a letter, your cat is growing."
+
+	return {
+		"speech": output,
+		"displayText": output,
+		"contextOut": ['yes']
+	}
 
 def CheckLetter(req):
 
