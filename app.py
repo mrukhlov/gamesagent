@@ -59,6 +59,7 @@ def CheckLetter(req):
 	letter_index = index_getter(letter)
 	letter_diff = [i for i in list('kitten'.upper()) if i not in guess_word]
 
+	print guess_word.count('_') - 1
 	if guess_word.count('_') - 1 > 0:
 		if guess_word.count(letter) == 0 and letter in letter_diff:
 			for i in letter_index:
