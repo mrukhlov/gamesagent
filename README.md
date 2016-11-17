@@ -1,5 +1,5 @@
-#How to change context replies on user choice via Api.ai Webhook
+#Api.ai sample game agent
 
-This example shows how you can use Api.ai webhook to provide different parameters depending on user reply.
+This example shows how you can use Api.ai webhook to create agent for playing games.
 
 <a href="https://heroku.com/deploy" target="_blank"><img src="https://www.herokucdn.com/deploy/button.svg"></a>
