@@ -36,10 +36,15 @@ def webhook():
 		res = CheckLetter(req)
 	elif action == 'game.correct.word':
 		res = correctWord(req)
+	elif action == 'confirmation.yes':
+		res = gameReset(req)
 	else:
 		log.error("Unexpeted action.")
 
 	return make_response(jsonify(res))
+
+def gameReset(req):
+	guess_word = ['K', '_', '_', '_', '_', 'N']
 
 def CheckLetter(req):
 
