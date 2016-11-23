@@ -67,8 +67,8 @@ def webhook():
 		res = speech
 	elif action == 'slack_test':
 		slack_message = {'text':'aaa', "attachments": [{"title": "IMAGE", "image_url": "https://s22.postimg.org/ih21470d9/image.png"}]}
-		
-		return make_response(jsonify({"data": {"slack": {slack_message}}}))
+
+		return make_response(jsonify({"data": {"slack": slack_message}}))
 	else:
 		res = None
 
