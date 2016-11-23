@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+'''used as webhook'''
+
 import os
 
 from flask import (
