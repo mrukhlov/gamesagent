@@ -12,9 +12,15 @@ from flask import (
 app = Flask(__name__)
 log = app.logger
 
-#global guess_word
-#global img_links
+global guess_word
+global img_links
+
 guess_word = ['K', '_', '_', '_', '_', 'N']
+img_links = [
+	'https://s22.postimg.org/r9eee4w4d/image.png',
+	'https://s22.postimg.org/z3jld9tb1/image.png',
+	"https://s22.postimg.org/ih21470d9/image.png"
+]
 
 def index_getter(letter):
 	index = 0
