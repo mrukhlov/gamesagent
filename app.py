@@ -56,10 +56,6 @@ def webhook():
 		res = gameStart(req)
 	elif action and action.startswith('smalltalk'):
 		res = smallTalk(req)
-	elif action == 'slack_test':
-		slack_message = {'text':'aaa', "attachments": [{"title": "IMAGE", "image_url": "https://s22.postimg.org/ih21470d9/image.png"}]}
-
-		return make_response(jsonify({"data": {"slack": slack_message}}))
 	else:
 		res = None
 
@@ -133,7 +129,7 @@ def checkLetter(req):
 
 				reset_vars()
 
-		elif letter not in letter_diff and letter in guess_word:
+		elif letter in guess_word:
 			output = 'You have already guessed this letter. Try again.'
 		else:
 			output = 'Almost there. Try again!'
