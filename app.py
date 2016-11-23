@@ -12,16 +12,6 @@ from flask import (
 app = Flask(__name__)
 log = app.logger
 
-global guess_word
-global img_links
-
-guess_word = ['K', '_', '_', '_', '_', 'N']
-img_links = [
-	'https://s22.postimg.org/r9eee4w4d/image.png',
-	'https://s22.postimg.org/z3jld9tb1/image.png',
-	"https://s22.postimg.org/ih21470d9/image.png"
-]
-
 def index_getter(letter):
 	index = 0
 	index_list =[]
@@ -30,6 +20,18 @@ def index_getter(letter):
 			index_list.append(index)
 		index+=1
 	return index_list
+
+def reset_vars():
+
+	global guess_word
+	global img_links
+
+	guess_word = ['K', '_', '_', '_', '_', 'N']
+	img_links = [
+		'https://s22.postimg.org/r9eee4w4d/image.png',
+		'https://s22.postimg.org/z3jld9tb1/image.png',
+		"https://s22.postimg.org/ih21470d9/image.png"
+	]
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -65,15 +67,7 @@ def webhook():
 
 def gameStart(req):
 
-	global guess_word
-	global img_links
-
-	guess_word = ['K', '_', '_', '_', '_', 'N']
-	img_links = [
-		'https://s22.postimg.org/r9eee4w4d/image.png',
-		'https://s22.postimg.org/z3jld9tb1/image.png',
-		"https://s22.postimg.org/ih21470d9/image.png"
-	]
+	reset_vars()
 
 	speech = None
 	if req['result']["fulfillment"].has_key('speech'):
@@ -101,7 +95,7 @@ def gameReset(req):
 	if req['result']["fulfillment"].has_key('speech'):
 		speech = req["result"]["fulfillment"]['speech'].replace(' _ _ _ _ ', '____')
 
-	guess_word = ['K', '_', '_', '_', '_', 'N']
+	reset_vars()
 
 	return {
 		"speech": speech,
@@ -132,31 +126,19 @@ def checkLetter(req):
 					link = img_links[0]
 					img_links.remove(link)
 
-				slack_message = {
-					'text': output, "attachments":
-					[
-						{"title": "IMAGE", "image_url": link}
-					]
-			     }
+				attachments.append({"title": "IMAGE", "image_url": link})
 			else:
 				output = 'You are so smart! Fantastic! Here is your kitten.'
+				attachments.append({"title": "IMAGE", "image_url": "https://s22.postimg.org/ih21470d9/image.png"})
 
-				slack_message = {
-					'text': output, "attachments":
-					[
-						{"title": "IMAGE", "image_url": "https://s22.postimg.org/ih21470d9/image.png"}
-					]
-			     }
+				reset_vars()
 
-				global guess_word
-				global img_links
-				guess_word = ['K', '_', '_', '_', '_', 'N']
 		elif letter not in letter_diff and letter in guess_word:
 			output = 'You have already guessed this letter. Try again.'
-			slack_message = {'text': output}
 		else:
 			output = 'Almost there. Try again!'
-			slack_message = {'text': output}
+
+	slack_message = {'text': output, "attachments":attachments}
 
 	return {
 		#"speech": output,
@@ -166,6 +148,8 @@ def checkLetter(req):
 	}
 
 def correctWord(req):
+
+	global guess_word
 
 	speech = None
 	if req['result']["fulfillment"].has_key('speech'):
@@ -178,7 +162,7 @@ def correctWord(req):
 		]
      }
 
-	guess_word = ['K', '_', '_', '_', '_', 'N']
+	reset_vars()
 
 	return {
 		"speech": speech,
