@@ -46,7 +46,7 @@ def webhook():
 	if req['result'].has_key('action'):
 		action = req['result']['action']
 
-	if action == 'game.correct_guess' or action == 'game.wrong_guess':
+	if action == 'game.correct_letter' or action == 'game.wrong_letter':
 		res = checkLetter(req)
 	elif action == 'game.correct.word':
 		res = correctWord(req)
