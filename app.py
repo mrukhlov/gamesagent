@@ -48,7 +48,7 @@ def webhook():
 
 	if action == 'game.letter':
 		res = checkLetter(req)
-	elif action == 'game.correct.word':
+	elif action == 'game.word.correct':
 		res = correctWord(req)
 	elif action == 'confirmation.yes':
 		res = gameReset(req)
