@@ -16,8 +16,8 @@ log = app.logger
 
 def index_getter(letter):
 	index = 0
-	index_list =[]
-	for i in list('kitten'.upper()):
+	index_list = []
+	for i in 'kitten'.upper():
 		if i == letter:
 			index_list.append(index)
 		index+=1
@@ -40,13 +40,7 @@ def webhook():
 
 	req = request.get_json(silent=True, force=True)
 
-	speech = None
-	if req['result']["fulfillment"].has_key('speech'):
-		speech = req["result"]["fulfillment"]['speech']
-
-	action = None
-	if req['result'].has_key('action'):
-		action = req['result']['action']
+	action = req["result"].get("action")
 
 	if action == 'game.letter':
 		res = checkLetter(req)
@@ -67,9 +61,7 @@ def gameStart(req):
 
 	reset_vars()
 
-	speech = None
-	if req['result']["fulfillment"].has_key('speech'):
-		speech = req["result"]["fulfillment"]['speech']
+	speech = req["result"]["fulfillment"].get("speech")
 
 	return {
 		"speech": speech,
@@ -78,9 +70,7 @@ def gameStart(req):
 
 def smallTalk(req):
 
-	speech = None
-	if req['result']["fulfillment"].has_key('speech'):
-		speech = req["result"]["fulfillment"]['speech']
+	speech = req["result"]["fulfillment"].get("speech")
 
 	return {
 		"speech": speech,
@@ -89,9 +79,7 @@ def smallTalk(req):
 
 def gameReset(req):
 
-	speech = None
-	if req['result']["fulfillment"].has_key('speech'):
-		speech = req["result"]["fulfillment"]['speech'].replace(' _ _ _ _ ', '____')
+	speech = req["result"]["fulfillment"].get("speech").replace(' _ _ _ _ ', '____')
 
 	reset_vars()
 
@@ -103,38 +91,32 @@ def gameReset(req):
 
 def checkLetter(req):
 
-	speech = None
-	if req['result']["fulfillment"].has_key('speech'):
-		speech = req["result"]["fulfillment"]['speech']
-
 	attachments = []
 
 	letter = req['result']['resolvedQuery'].upper()
 	letter_index = index_getter(letter)
 	letter_diff = [i for i in list('kitten'.upper()) if i not in guess_word]
 
-	if guess_word.count('_') - 1 > -1:
-		if guess_word.count(letter) == 0 and letter in letter_diff:
-			for i in letter_index:
-				guess_word[i] = letter
-			if '_' in guess_word:
-				output = "That's right! " + ''.join(guess_word) + '. Guess the next one.'
+	if guess_word.count(letter) == 0 and letter in letter_diff:
+		for i in letter_index:
+			guess_word[i] = letter
+		if '_' in guess_word:
+			output = "That's right! " + ''.join(guess_word) + '. Guess the next one.'
 
-				if len(img_links) > 0:
-					link = img_links[0]
-					img_links.remove(link)
+			if len(img_links) > 0:
+				link = img_links.pop(0)
 
-				attachments.append({"title": "IMAGE", "image_url": link})
-			else:
-				output = 'You are so smart! Fantastic! Here is your kitten.'
-				attachments.append({"title": "IMAGE", "image_url": "https://s22.postimg.org/ih21470d9/image.png"})
-
-				reset_vars()
-
-		elif letter in guess_word:
-			output = 'You have already guessed this letter. Try again.'
+			attachments.append({"title": "IMAGE", "image_url": link})
 		else:
-			output = 'Almost there. Try again!'
+			output = 'You are so smart! Fantastic! Here is your kitten.'
+			attachments.append({"title": "IMAGE", "image_url": "https://s22.postimg.org/ih21470d9/image.png"})
+
+			reset_vars()
+
+	elif letter in guess_word:
+		output = 'You have already guessed this letter. Try again.'
+	else:
+		output = 'Almost there. Try again!'
 
 	slack_message = {'text': output, "attachments":attachments}
 
@@ -149,9 +131,7 @@ def correctWord(req):
 
 	global guess_word
 
-	speech = None
-	if req['result']["fulfillment"].has_key('speech'):
-		speech = req["result"]["fulfillment"]['speech']
+	speech = req["result"]["fulfillment"].get("speech")
 
 	slack_message = {
 		'text': speech, "attachments":
