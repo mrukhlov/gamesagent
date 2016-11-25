@@ -123,7 +123,7 @@ def checkLetter(req):
 	return {
 		#"speech": output,
 		"displayText": output,
-		"contextOut": [],
+		"contextOut": ['guessing'],
 		"data": {"slack": slack_message}
 	}
 
