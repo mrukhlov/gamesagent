@@ -53,7 +53,7 @@ def webhook():
 	elif action and action.startswith('smalltalk'):
 		res = smallTalk(req)
 	else:
-		log.error("Unexpeted action.")
+		log.error("Unexpected action.")
 
 	return make_response(jsonify(res))
 
