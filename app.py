@@ -41,7 +41,7 @@ def webhook():
 	req = request.get_json(silent=True, force=True)
 
 	action = req["result"].get("action")
-	print action
+
 	if action == 'game.letter':
 		res = checkLetter(req)
 	elif action == 'game.word.correct':
