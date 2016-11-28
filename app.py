@@ -30,9 +30,9 @@ def reset_vars():
 
 	guess_word = ['K', '_', '_', '_', '_', 'N']
 	img_links = [
-		'https://s22.postimg.org/r9eee4w4d/image.png',
-		'https://s22.postimg.org/z3jld9tb1/image.png',
-		"https://s22.postimg.org/ih21470d9/image.png"
+		'https://examples.api.ai/CatGame/cat-game-1.PNG',
+		'https://examples.api.ai/CatGame/cat-game-2.PNG',
+		"https://examples.api.ai/CatGame/cat-game-3.PNG"
 	]
 
 @app.route('/webhook', methods=['POST'])
@@ -109,7 +109,7 @@ def checkLetter(req):
 			attachments.append({"title": "IMAGE", "image_url": link})
 		else:
 			output = 'You are so smart! Fantastic! Here is your kitten.'
-			attachments.append({"title": "IMAGE", "image_url": "https://s22.postimg.org/ih21470d9/image.png"})
+			attachments.append({"title": "IMAGE", "image_url": "https://examples.api.ai/CatGame/cat-game-3.PNG"})
 
 			reset_vars()
 
@@ -136,7 +136,7 @@ def correctWord(req):
 	slack_message = {
 		'text': speech, "attachments":
 		[
-			{"title": "IMAGE", "image_url": "https://s22.postimg.org/ih21470d9/image.png"}
+			{"title": "IMAGE", "image_url": "https://examples.api.ai/CatGame/cat-game-3.PNG"}
 		]
      }
 
